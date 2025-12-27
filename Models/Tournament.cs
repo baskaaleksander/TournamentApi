@@ -7,6 +7,7 @@ public class Tournament
     public DateTime StartDate { get; set; }
     public TournamentStatus Status { get; set; }
 
-    public ICollection<Bracket> Brackets { get; set; } = new List<Bracket>();
+    public Bracket? Bracket { get; set; }
+    public ICollection<User> Participants { get; set; } = new List<User>();
 }
 

@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TournamentApi.Data;
@@ -53,7 +52,7 @@ public class AuthService
     private string GenerateToken(User user)
     {
         var jwtSettings = _configuration.GetSection("Jwt");
-        var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is not configured");
+        var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("Klucz tajny JWT nie jest skonfigurowany");
         var issuer = jwtSettings["Issuer"] ?? "TournamentApi";
         var audience = jwtSettings["Audience"] ?? "TournamentApi";
         var expirationMinutes = int.Parse(jwtSettings["ExpirationMinutes"] ?? "60");

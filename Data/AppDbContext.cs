@@ -48,10 +48,19 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Bracket>()
             .HasOne(b => b.Tournament)
-            .WithMany(t => t.Brackets)
-            .HasForeignKey(b => b.TournamentId)
+            .WithOne(t => t.Bracket)
+            .HasForeignKey<Bracket>(b => b.TournamentId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
+
+        modelBuilder.Entity<Tournament>()
+            .HasMany(t => t.Participants)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "TournamentUser",
+                j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                j => j.HasOne<Tournament>().WithMany().HasForeignKey("TournamentId"),
+                j => j.HasKey("TournamentId", "UserId"));
     }
 }
 

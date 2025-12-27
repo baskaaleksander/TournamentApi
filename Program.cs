@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TournamentApi.Data;
+using TournamentApi.GraphQL.Mutations;
 using TournamentApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseInMemoryDatabase("TournamentDb"));
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is not configured");
+var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("Klucz tajny JWT nie jest skonfigurowany");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -35,12 +36,14 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<TournamentService>();
 
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
     .AddQueryType()
-    .AddMutationType();
+    .AddMutationType<Mutation>()
+    .AddTypeExtension<TournamentMutations>();
 
 var app = builder.Build();
 
