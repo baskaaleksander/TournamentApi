@@ -20,14 +20,14 @@ public class AuthService
         _configuration = configuration;
     }
 
-    public async Task<AuthPayload?> LoginAsync(LoginInput input)
+    public async Task<AuthPayload> LoginAsync(LoginInput input)
     {
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == input.Email);
 
         if (user == null || !VerifyPassword(input.Password, user.PasswordHash))
         {
-            return null;
+            throw new InvalidOperationException("Nieprawidłowy email lub hasło.");
         }
 
         var token = GenerateToken(user);
@@ -39,14 +39,14 @@ public class AuthService
         };
     }
 
-    public async Task<AuthPayload?> RegisterAsync(RegisterInput input)
+    public async Task<AuthPayload> RegisterAsync(RegisterInput input)
     {
         var existingUser = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == input.Email);
 
         if (existingUser != null)
         {
-            return null;
+            throw new InvalidOperationException($"Użytkownik z emailem {input.Email} już istnieje.");
         }
 
         var passwordHash = HashPassword(input.Password);
