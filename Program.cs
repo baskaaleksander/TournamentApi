@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using TournamentApi.Data;
 using TournamentApi.GraphQL;
 using TournamentApi.GraphQL.Mutations;
+using TournamentApi.GraphQL.Queries;
 using TournamentApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,7 +43,8 @@ builder.Services.AddScoped<TournamentService>();
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
-    .AddQueryType()
+    .AddQueryType<Query>()
+    .AddTypeExtension<MyMatchesQuery>()
     .AddMutationType<Mutation>()
     .AddTypeExtension<TournamentMutations>();
 
