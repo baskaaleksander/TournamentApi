@@ -1,34 +1,3 @@
-# Tournament GraphQL API - Dokumentacja Mutacji
-
-## Wprowadzenie
-
-Tournament GraphQL API to system zarządzania turniejami sportowymi i e-sportowymi wykorzystujący system pucharowy (single-elimination). API umożliwia tworzenie turniejów, automatyczne generowanie drabinek turniejowych oraz śledzenie wyników meczów.
-
-## Uruchomienie
-
-1. **Zbuduj projekt:**
-   ```bash
-   dotnet build
-   ```
-
-2. **Uruchom serwer:**
-   ```bash
-   dotnet run
-   ```
-
-3. **Otwórz interfejs GraphQL:**
-   Przejdź do `/graphql` w przeglądarce, aby otworzyć interfejs Banana Cake Pop i interakcję z API.
-
-## Uwierzytelnianie
-
-Większość mutacji wymaga tokenu JWT. Aby uzyskać token, użyj mutacji `login` lub `register`. Następnie dołącz token w nagłówku żądania:
-
-```
-Authorization: Bearer <twój_token>
-```
-
----
-
 ## Mutacje
 
 ### 1. Register (Rejestracja)
