@@ -8,6 +8,14 @@ namespace TournamentApi.GraphQL.Mutations;
 [ExtendObjectType(typeof(Mutation))]
 public class TournamentMutations
 {
+    public async Task<Tournament> CreateTournament(
+        string name,
+        DateTime startDate,
+        TournamentService tournamentService)
+    {
+        return await tournamentService.CreateTournamentAsync(name, startDate);
+    }
+
     public async Task<Tournament> AddParticipant(
         int tournamentId,
         int userId,

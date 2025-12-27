@@ -13,6 +13,21 @@ public class TournamentService
         _context = context;
     }
 
+    public async Task<Tournament> CreateTournamentAsync(string name, DateTime startDate)
+    {
+        var tournament = new Tournament
+        {
+            Name = name,
+            StartDate = startDate,
+            Status = TournamentStatus.Planned
+        };
+
+        _context.Tournaments.Add(tournament);
+        await _context.SaveChangesAsync();
+
+        return tournament;
+    }
+
     public async Task<Tournament> AddParticipantAsync(int tournamentId, int userId)
     {
         var tournament = await _context.Tournaments
