@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using HotChocolate.Types;
+using TournamentApi.DTOs;
 using TournamentApi.GraphQL;
 using TournamentApi.Models;
 using TournamentApi.Services;
@@ -9,41 +11,39 @@ namespace TournamentApi.GraphQL.Mutations;
 public class TournamentMutations
 {
     public async Task<Tournament> CreateTournament(
-        string name,
-        DateTime startDate,
+        CreateTournamentInput input,
         TournamentService tournamentService)
     {
-        return await tournamentService.CreateTournamentAsync(name, startDate);
+        return await tournamentService.CreateTournamentAsync(input.Name, input.StartDate);
     }
 
     public async Task<Tournament> AddParticipant(
-        int tournamentId,
-        int userId,
+        [Range(1, int.MaxValue, ErrorMessage = "ID turnieju musi być liczbą całkowitą dodatnią")] int tournamentId,
+        [Range(1, int.MaxValue, ErrorMessage = "ID użytkownika musi być liczbą całkowitą dodatnią")] int userId,
         TournamentService tournamentService)
     {
         return await tournamentService.AddParticipantAsync(tournamentId, userId);
     }
 
     public async Task<Tournament> StartTournament(
-        int tournamentId,
+        [Range(1, int.MaxValue, ErrorMessage = "ID turnieju musi być liczbą całkowitą dodatnią")] int tournamentId,
         TournamentService tournamentService)
     {
         return await tournamentService.StartTournamentAsync(tournamentId);
     }
 
     public async Task<Bracket> GenerateBracket(
-        int tournamentId,
+        [Range(1, int.MaxValue, ErrorMessage = "ID turnieju musi być liczbą całkowitą dodatnią")] int tournamentId,
         TournamentService tournamentService)
     {
         return await tournamentService.GenerateBracketAsync(tournamentId);
     }
 
     public async Task<Match> PlayMatch(
-        int matchId,
-        int winnerId,
+        PlayMatchInput input,
         TournamentService tournamentService)
     {
-        return await tournamentService.PlayMatchAsync(matchId, winnerId);
+        return await tournamentService.PlayMatchAsync(input.MatchId, input.WinnerId);
     }
 }
 
