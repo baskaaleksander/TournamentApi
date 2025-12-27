@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TournamentApi.Data;
+using TournamentApi.GraphQL;
 using TournamentApi.GraphQL.Mutations;
 using TournamentApi.Services;
 
