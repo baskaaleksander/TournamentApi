@@ -39,6 +39,37 @@ public class AuthService
         };
     }
 
+    public async Task<AuthPayload?> RegisterAsync(RegisterInput input)
+    {
+        var existingUser = await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == input.Email);
+
+        if (existingUser != null)
+        {
+            return null;
+        }
+
+        var passwordHash = HashPassword(input.Password);
+        var user = new User
+        {
+            Email = input.Email,
+            FirstName = input.FirstName,
+            LastName = input.LastName,
+            PasswordHash = passwordHash
+        };
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+
+        var token = GenerateToken(user);
+
+        return new AuthPayload
+        {
+            Token = token,
+            User = user
+        };
+    }
+
     public string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password);

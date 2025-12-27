@@ -46,7 +46,8 @@ builder.Services
     .AddQueryType<Query>()
     .AddTypeExtension<MyMatchesQuery>()
     .AddMutationType<Mutation>()
-    .AddTypeExtension<TournamentMutations>();
+    .AddTypeExtension<TournamentMutations>()
+    .AddTypeExtension<AuthMutations>();
 
 var app = builder.Build();
 
